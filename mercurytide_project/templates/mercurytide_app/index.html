@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Rango</title>
+    </head>
+
+    <body>
+        {% if user.is_authenticated %}
+        <h1>Rango says... hello {{ user.username }}!</h1>
+        <a href="/mercurytide/logout/">Logout</a><br />
+        {% else %}
+        <h1>Rango says... hello world!</h1>
+        <a href="/mercurytide/register/">Register Here</a><br />
+        <a href="/mercurytide/login/">Login</a><br />
+        {% endif %}
+        {% if categories %}
+            <ul>
+                {% for category in categories %}
+                <!-- Following line changed to add an HTML hyperlink -->
+                    <li><a href="{% url 'category'  category.slug %}">{{ category.name }}</a></li>
+                {% endfor %}
+            </ul>
+       {% else %}
+            <strong>There are no categories present.</strong>
+       {% endif %}
+    </body>
+</html>
