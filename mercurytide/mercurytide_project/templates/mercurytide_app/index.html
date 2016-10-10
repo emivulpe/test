@@ -1,0 +1,18 @@
+{% extends 'mercurytide_app/base.html' %}
+
+{% load staticfiles %}
+
+{% block page_contents %}
+    <h3>By entering a URL you will get a summary of the page</h3>
+    <form class="form-inline">
+      <div class="form-group">
+        <label for="url">URL:</label>
+        <input type="text" class="form-control" id="url">
+      </div>
+      <button class="btn btn-default" id="report_button">Submit</button>
+    </form>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/webpage_reporter.js' %}"></script>
+{% endblock %}
