@@ -2,15 +2,16 @@
 
 {% load staticfiles %}
 
-{% block body_block %}
-    {% if categories %}
-        <ul>
-            {% for category in categories %}
-            <!-- Following line changed to add an HTML hyperlink -->
-                <li><a href="{% url 'category'  category.slug %}">{{ category.name }}</a></li>
-            {% endfor %}
-        </ul>
-   {% else %}
-        <strong>There are no categories present.</strong>
-   {% endif %}
+{% block page_contents %}
+    <h3>By entering a URL you will get a summary of the page</h3>
+    {% csrf_token %}
+      <div class="form-group">
+        <label for="url">URL:</label>
+        <input type="text" class="form-control" id="url">
+      </div>
+      <button class="btn btn-default" id="report_button">Submit</button>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/webpage_reporter.js' %}"></script>
 {% endblock %}
