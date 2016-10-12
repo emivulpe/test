@@ -49,7 +49,7 @@ def create_report(request):
             # initiate the report variables
             page_contents = {}
             total_word_count = 0
-            most_common_words = []
+            most_common_words = ''
 
             # Custom HTML parser
             class PageHTMLParser(HTMLParser):
@@ -86,11 +86,11 @@ def create_report(request):
             page_contents_sorted = sorted(page_contents.items(), key = lambda x: x[1], reverse=True)
             print 'after sorting the contents'
             top_word_index = 0
-            while top_word_index < 5:
-                most_common_words.append(page_contents_sorted[top_word_index][0])
+            while top_word_index < 4:
+                most_common_words += page_contents_sorted[top_word_index][0] + ', '
                 top_word_index += 1
-            most_common_words.append(page_contents_sorted[4][0])
-            report['Most_common_5_words'] = most_common_words
+            most_common_words += page_contents_sorted[4][0]
+            report['Most common 5 words'] = most_common_words
 
             # process the html with beautifulsoup4
             print "before beautiful soup"
@@ -107,23 +107,30 @@ def create_report(request):
 
             # get a list of meta tags and the keywords that are not used in the content
             metatags = soup.find_all('meta')
-            metatags_list = []
+            metatags_str = ''
             keywords = []
             for tag in metatags:
                 print tag.get('name')
                 if tag.get('name') is not None:
-                    metatags_list.append(tag.get('name'))
+                    metatags_str += tag.get('name') + ', '
                 if tag.get('name') == 'keywords':
                     keywords = tag.get('content')
                     keywords = map(str,keywords.split())
+            metatags_str = metatags_str[:-2]
 
             # add the metatags
-            report['Metatags'] = metatags_list
+            report['Metatags'] = metatags_str
 
             print keywords
             # add the list of keywords that don't appear in the content
             keywords_not_in_content = list(set(map(str.lower,keywords)) - set(map(str.lower,page_contents.keys())))
-            report['Keywords_not_appearing_in_the_content'] = keywords_not_in_content
+            keywords_str = ''
+            i = 0
+            while i < len(keywords_not_in_content) - 1:
+                keywords_str += keywords_not_in_content[i] + ', '
+                i += 1
+            keywords_str += keywords_not_in_content[len(keywords_not_in_content) - 1]
+            report['Keywords not appearing in the context'] = keywords_str
 
             # get the page size
             page_headers = dict(response.getheaders())
