@@ -1,0 +1,16 @@
+{% extends 'mercurytide_app/base.html' %}
+
+{% load staticfiles %}
+
+{% block body_block %}
+    {% if categories %}
+        <ul>
+            {% for category in categories %}
+            <!-- Following line changed to add an HTML hyperlink -->
+                <li><a href="{% url 'category'  category.slug %}">{{ category.name }}</a></li>
+            {% endfor %}
+        </ul>
+   {% else %}
+        <strong>There are no categories present.</strong>
+   {% endif %}
+{% endblock %}

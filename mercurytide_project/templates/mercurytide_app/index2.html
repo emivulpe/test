@@ -1,0 +1,28 @@
+{% extends 'mercurytide_app/base.html' %}
+
+{% load staticfiles %}
+
+{% block page_contents %}
+    <h3>By entering a URL you will get a summary of the page</h3>
+    {% csrf_token %}
+      <div class="form-group form-inline">
+        <label for="url">URL:</label>
+        <input type="text" class="form-control" id="url2">
+        <button class="btn btn-default" id="report_button2">Submit</button>
+      </div>
+    <div class="row" id="contents">
+      <div class="col-lg-6">
+        <div class="input-group">
+            <label for="url">URL:</label>
+            <input type="text" class="form-control" placeholder="" id="url">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button" id="report_button">Report</button>
+              </span>
+        </div><!-- /input-group -->
+      </div><!-- /.col-lg-6 -->
+    </div><!-- /.row -->
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/webpage_reporter.js' %}"></script>
+{% endblock %}
